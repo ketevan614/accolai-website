@@ -108,12 +108,16 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
 .blk.beat-k { background: var(--amber); } .blk.beat-s { background: #ffd08a; } .blk.beat-h { background: #8a6a33; }
 .blk.bass { background: var(--mint); }
 .playhead { position: absolute; top: 14%; bottom: 16%; left: calc(var(--margin) + 64px); width: 2px; background: var(--ink); opacity: 0; }
-.agent { position: absolute; width: clamp(56px, 7vw, 96px); opacity: 0; will-change: transform; }
-.agent svg { width: 100%; height: auto; }
+.agent { position: absolute; width: clamp(80px, 10vw, 140px); opacity: 0; will-change: transform; }
+.agent svg { width: 100%; height: auto; image-rendering: pixelated; overflow: visible; }
+.agent .arm, .hum-bot .arm { transform-box: fill-box; transform-origin: 50% 0; }
+.agent .arm-l, .hum-bot .arm-l { transform-origin: 100% 0; }
+.agent .eyes, .hum-bot .eyes { transform-box: fill-box; transform-origin: center; animation: blinky 4s ease-in-out infinite; }
+.agent .jet, .hum-bot .jet { animation: jet 180ms steps(2) infinite; }
+@keyframes jet { from { opacity: 1; transform: translateY(0); } to { opacity: 0.4; transform: translateY(0.5px); } }
 .agent-a { color: var(--amber); left: var(--margin); top: 52%; }
 .agent-b { color: var(--mint); right: var(--margin); top: 70%; }
-.agent .eye { fill: currentColor; transform-origin: center; animation: blinky 4s ease-in-out infinite; }
-.agent-b .eye { animation-delay: 1.3s; }
+.agent-b .eyes { animation-delay: 1.3s; }
 @keyframes blinky { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.15); } }
 .caps { position: absolute; left: var(--margin); top: 1.5rem; }
 .cap { position: absolute; left: 0; top: 0; white-space: nowrap; font-family: var(--font-display); font-weight: 600; font-size: var(--step-lead); letter-spacing: -0.02em; opacity: 0; }
@@ -154,6 +158,10 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
 .hum-note:nth-child(4) { background: var(--blue); }
 .hum-vel i { position: absolute; bottom: 0; width: 0.6%; height: 22%; background: var(--amber); opacity: 0.9; border-radius: 999px; transform-origin: bottom; transform: scaleY(0); }
 .hum-cursor { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--hum-ink); transform: translateX(-10px); }
+.hum-bot { position: absolute; left: 0; top: 0; width: clamp(64px, 7vw, 100px); opacity: 0; will-change: transform; }
+.hum-bot svg { width: 100%; height: auto; image-rendering: pixelated; overflow: visible; }
+.hum-spark { position: absolute; left: 0; top: 0; width: 10px; height: 10px; border-radius: 50%; opacity: 0; }
+.hum-scene.is-rest .hum-bot { opacity: 1; transform: translate(70%, 10%); }
 .hum-scene.is-rest .hum-wave { opacity: 0.15; }
 .hum-scene.is-rest .hum-vel i { transform: none; }
 .hum-scene.is-rest .hum-cursor { opacity: 0; }

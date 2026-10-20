@@ -34,6 +34,7 @@
     const path = root.querySelector('#hum-wave-path');
     if (!notes || notes.childElementCount) return;
     path.setAttribute('d', wavePath(1000, 420));
+    if (window.makeRobot && !root.querySelector('.hum-bot')) { const bot = document.createElement('div'); bot.className = 'hum-bot'; bot.appendChild(window.makeRobot(window.BASSBOT, '#48d6a8')); root.querySelector('.hum-pic').appendChild(bot); for (let i = 0; i < 10; i++) { const s = document.createElement('i'); s.className = 'hum-spark'; s.style.background = ['#ffb547', '#5b9cff', '#48d6a8', '#f4f5f7'][i % 4]; root.querySelector('.hum-pic').appendChild(s); } }
     PHRASE.forEach((n, i) => {
       const el = document.createElement('i');
       el.className = 'hum-note';
@@ -87,7 +88,7 @@
         cap(1, 0.14);
         // 0.3 → 0.6: each note appears where the line is, stretching to length, staggered
         notes.forEach((n, i) => {
-          tl.to(n, { opacity: 1, scaleX: 1, duration: 0.08, ease: 'power2.out' }, 0.32 + i * 0.035);
+          tl.fromTo(n, { opacity: 0, scaleX: 0.1, y: -40 }, { opacity: 1, scaleX: 1, y: 0, duration: 0.09, ease: 'back.out(2.5)' }, 0.32 + i * 0.035);
         });
         tl.to(wave, { opacity: 0.18, duration: 0.15 }, 0.45);
         tl.to(cursor, { opacity: 0, duration: 0.05 }, 0.5);
@@ -95,9 +96,21 @@
         // 0.65 → 0.85: velocity rises, one note gets picked and moves a row (the edit)
         vels.forEach((v, i) => tl.to(v, { scaleY: 1, duration: 0.05 }, 0.62 + i * 0.015));
         cap(3, 0.72);
-        tl.to(notes[3], { scaleY: 1.6, duration: 0.03 }, 0.76);
+        // a robot flies in, grabs the fourth note and lifts it; sparks fly
+        const bot = ctx.root.querySelector('.hum-bot');
+        const sparks = ctx.q('.hum-spark');
+        if (bot) {
+          gsap.set(bot, { xPercent: 120, yPercent: -60, opacity: 0, rotate: 15, x: () => pic.clientWidth, y: () => pic.clientHeight * (3 / ROWS) });
+          tl.to(bot, { opacity: 1, rotate: 0, x: () => pic.clientWidth * (4 / COLS) + pic.clientWidth * (3 / COLS) / 2, duration: 0.1, ease: 'power3.out' }, 0.7);
+          tl.to(bot.querySelector('.arm-l'), { rotate: 100, duration: 0.03 }, 0.78);
+          tl.to(bot.querySelector('.arm-r'), { rotate: -100, duration: 0.03 }, 0.78);
+          tl.to(bot, { y: () => pic.clientHeight * (2 / ROWS), duration: 0.08, ease: 'power2.inOut' }, 0.8);
+          tl.to(bot, { yPercent: -66, duration: 0.03, yoyo: true, repeat: 5 }, 0.9);
+        }
+        tl.to(notes[3], { scaleY: 1.5, backgroundColor: '#5b9cff', duration: 0.03 }, 0.76);
         tl.to(notes[3], { y: () => -pic.clientHeight / ROWS, duration: 0.08, ease: 'power2.inOut' }, 0.8);
-        tl.to(notes[3], { scaleX: 1.34, duration: 0.08, ease: 'power2.inOut' }, 0.88);
+        tl.to(notes[3], { scaleX: 1.34, duration: 0.08, ease: 'back.out(2)' }, 0.88);
+        sparks.forEach((s, i) => { const ang = (i / sparks.length) * Math.PI * 2; gsap.set(s, { opacity: 0, x: () => pic.clientWidth * (5.5 / COLS), y: () => pic.clientHeight * (2.5 / ROWS) }); tl.to(s, { opacity: 1, duration: 0.01 }, 0.88); tl.to(s, { x: () => pic.clientWidth * (5.5 / COLS) + Math.cos(ang) * 90, y: () => pic.clientHeight * (2.5 / ROWS) + Math.sin(ang) * 70, opacity: 0, duration: 0.1, ease: 'power2.out' }, 0.89); });
         tl.to({}, { duration: 0.04 }, 0.96);
       },
       rest(ctx) {

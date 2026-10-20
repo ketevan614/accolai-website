@@ -34,6 +34,69 @@
   }
 
   /* ======================================================================
+     PIXEL ROBOTS: drawn as pixel grids. b body · d dark · w white · e eye · g visor · l light · a antenna
+     ====================================================================== */
+  const BEATBOT = [
+    '.......a........',
+    '.......a........',
+    '.....bbbbbb.....',
+    '....bbbbbbbb....',
+    '.ww.bggggggb.ww.',
+    '.wwbbgeggegbbww.',
+    '.ww.bggggggb.ww.',
+    '....bbbbbbbb....',
+    '.....bbbbbb.....',
+    '......dddd......',
+    '....bbbbbbbb....',
+    '...bbllllllbb...',
+    '...bblddddlbb...',
+    '...bbllllllbb...',
+    '....bbbbbbbb....',
+    '.....dd..dd.....',
+    '.....dd..dd.....',
+    '....ddd..ddd....',
+  ];
+  const BASSBOT = [
+    '......a.a.......',
+    '.......a........',
+    '....bbbbbbbb....',
+    '...bbbbbbbbbb...',
+    '...bggggggggb...',
+    '...bgeggggegb...',
+    '...bggggggggb...',
+    '...bbbbbbbbbb...',
+    '....bbllllbb....',
+    '......dddd......',
+    '...bbbbbbbbbb...',
+    '..bbbdbbbbdbbb..',
+    '..bbbbdbbdbbbb..',
+    '..bbbbbddbbbbb..',
+    '...bbbbbbbbbb...',
+    '....dd....dd....',
+    '....dd....dd....',
+    '...ddd....ddd...',
+  ];
+  function makeRobot(map, body) {
+    const pal = { b: body, d: '#0a0b0f', w: '#f4f5f7', e: '#f4f5f7', g: '#15171d', l: 'rgba(255,255,255,0.35)', a: '#f4f5f7' };
+    const H = map.length, W = map[0].length;
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg'); svg.setAttribute('viewBox', `0 0 ${W + 4} ${H + 2}`); svg.setAttribute('shape-rendering', 'crispEdges');
+    const groups = { body: document.createElementNS(ns, 'g'), eyes: document.createElementNS(ns, 'g'), armL: document.createElementNS(ns, 'g'), armR: document.createElementNS(ns, 'g'), jet: document.createElementNS(ns, 'g') };
+    groups.eyes.setAttribute('class', 'eyes'); groups.armL.setAttribute('class', 'arm arm-l'); groups.armR.setAttribute('class', 'arm arm-r'); groups.jet.setAttribute('class', 'jet');
+    const px = (g, x, y, c, w = 1, h = 1) => { const r = document.createElementNS(ns, 'rect'); r.setAttribute('x', x); r.setAttribute('y', y); r.setAttribute('width', w); r.setAttribute('height', h); r.setAttribute('fill', c); g.appendChild(r); };
+    map.forEach((row, y) => [...row].forEach((ch, x) => { if (ch === '.') return; px(ch === 'e' ? groups.eyes : groups.body, x + 2, y, pal[ch]); }));
+    // arms: two pixels wide, hanging from the shoulders
+    px(groups.armL, 0, 10, body, 2, 4); px(groups.armL, 0, 14, '#f4f5f7', 2, 1);
+    px(groups.armR, W + 2, 10, body, 2, 4); px(groups.armR, W + 2, 14, '#f4f5f7', 2, 1);
+    // thruster flame under the feet
+    px(groups.jet, 6, H, '#ffb547', 2, 1); px(groups.jet, 12, H, '#ffb547', 2, 1); px(groups.jet, 7, H + 1, '#ff7a3d', 1, 1); px(groups.jet, 13, H + 1, '#ff7a3d', 1, 1);
+    Object.values(groups).forEach((g) => svg.appendChild(g));
+    return svg;
+  }
+  window.makeRobot = makeRobot; window.BEATBOT = BEATBOT; window.BASSBOT = BASSBOT;
+  $$('.agent').forEach((el) => { el.innerHTML = ''; el.appendChild(makeRobot(el.classList.contains('agent-a') ? BEATBOT : BASSBOT, el.classList.contains('agent-a') ? '#ffb547' : '#48d6a8')); });
+
+  /* ======================================================================
      THE OPENING: a hum comes in, becomes notes, an agent lays a beat, another adds a bass, it plays.
      Runs silently on load; "Hear it" runs it again with sound.
      ====================================================================== */
@@ -135,6 +198,8 @@
     capAt(tl, 2, 4.8);
     tl.to(agentA, { x: () => laneLead.clientWidth * 0.8, duration: 2.6, ease: 'none' }, 5.3);
     tl.to(agentA, { y: -8, duration: 0.18, yoyo: true, repeat: 13, ease: 'sine.inOut' }, 5.3);
+    tl.to(agentA.querySelector('.arm-r'), { rotate: -70, duration: 0.16, yoyo: true, repeat: 15, ease: 'power1.inOut' }, 5.3);
+    tl.to(agentA.querySelector('.arm-l'), { rotate: 70, duration: 0.16, yoyo: true, repeat: 15, ease: 'power1.inOut' }, 5.38);
     beatEls.forEach((el, i) => { tl.fromTo(el, { autoAlpha: 0, scaleX: 0.3, y: -24 }, { autoAlpha: 1, scaleX: 1, y: 0, duration: 0.4, ease: 'back.out(2)', onStart: () => { if (sound) drum(BEAT[i][1], audio().currentTime); } }, 5.3 + (BEAT[i][0] / STEPS) * 2.6); });
     tl.to(agentA, { xPercent: 0, x: () => laneLead.clientWidth * 0.8, y: -6, rotate: 8, duration: 0.5 }, 8.0);
     // 4. another reshapes the chords and adds a bass
@@ -144,6 +209,9 @@
     tl.to('.lane-bass .lane-name', { autoAlpha: 1, duration: 0.5 }, 9.6);
     tl.to(agentB, { x: () => -story.clientWidth * 0.5, duration: 2.0, ease: 'none' }, 9.8);
     tl.to(agentB, { y: -8, duration: 0.2, yoyo: true, repeat: 9, ease: 'sine.inOut' }, 9.8);
+    tl.to(agentB.querySelector('.arm-l'), { rotate: 90, duration: 0.5, ease: 'back.out(2)' }, 9.0);
+    tl.to(agentB.querySelector('.arm-l'), { rotate: 0, duration: 0.5 }, 9.9);
+    tl.to(agentB.querySelector('.arm-r'), { rotate: -50, duration: 0.2, yoyo: true, repeat: 9, ease: 'power1.inOut' }, 9.8);
     bassEls.forEach((el, i) => { tl.fromTo(el, { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.5, ease: 'back.out(1.6)', onStart: () => { if (sound) voice(BASS[i][2], audio().currentTime, 0.25, 0.7, 'bass'); } }, 9.9 + (1 - BASS[i][0] / STEPS) * 1.9); });
     // 5. now it is a song: the playhead sweeps, everything lights, the agents nod
     capAt(tl, 4, 12.2);
@@ -161,6 +229,8 @@
       loop.fromTo(head, { x: 0 }, { x: () => laneLead.clientWidth, duration: barSec, ease: 'none' }, 0);
       [...leadEls, ...beatEls, ...bassEls].forEach((el, i) => { const list = i < leadEls.length ? LEAD : i < leadEls.length + beatEls.length ? BEAT : BASS; const item = list[i < leadEls.length ? i : i < leadEls.length + beatEls.length ? i - leadEls.length : i - leadEls.length - beatEls.length]; const t = (item[0] / STEPS) * barSec; loop.to(el, { scale: 1.12, duration: 0.08, yoyo: true, repeat: 1, ease: 'power1.out' }, t); });
       loop.to([agentA, agentB], { y: -10, duration: barSec / 8, yoyo: true, repeat: 7, ease: 'sine.inOut' }, 0);
+      loop.to(agentA.querySelector('.arm-r'), { rotate: -60, duration: barSec / 16, yoyo: true, repeat: 15, ease: 'power1.inOut' }, 0);
+      loop.to(agentB.querySelector('.arm-r'), { rotate: -40, duration: barSec / 8, yoyo: true, repeat: 7, ease: 'power1.inOut' }, 0);
     };
     run();
   }
