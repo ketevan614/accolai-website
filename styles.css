@@ -185,7 +185,6 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
 .how-word[data-fx="shape"].is-on { transition: none; }
 .how-word[data-fx="build"] .l { transition: transform 420ms var(--ease-out); }
 .how-word[data-fx="build"].is-hit .l { transform: translateY(-0.12em); transition-duration: 80ms; }
-.how-line { margin-top: 1.25rem; font-size: var(--step-body); max-width: 30ch; }
 .how-field { position: relative; background: var(--surface); aspect-ratio: 16 / 10; overflow: hidden; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; transition: background var(--t-ui) ease; }
 .how-field.is-on { background: var(--surface-2); }
 .how-field canvas { display: block; width: 100%; height: 100%; }
@@ -208,7 +207,6 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
 .feat { padding: var(--section) var(--margin); }
 .feat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; }
 .feat .head { margin: 0; }
-.feat-lead { font-size: var(--step-body); color: var(--ink); white-space: nowrap; margin: 0; }
 .feat-roll { display: grid; gap: 10px; }
 .feat-lane { display: grid; grid-template-columns: 8rem 1fr; align-items: center; gap: var(--gutter); min-height: 6.5rem; padding: 0.75rem 0; background: var(--surface); }
 .feat-lane:nth-child(2) { background: var(--surface-2); }
@@ -285,7 +283,6 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
   .hum-note { border-radius: 6px; }
   .how-step, .how-shape { grid-template-columns: 1fr; gap: 1.5rem; }
   .how-shape .how-copy { order: -1; }
-  .how-line { max-width: none; }
   .foot { min-height: 0; }
   .foot-mark { padding-top: 4rem; }
 }
@@ -309,7 +306,6 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
   .hero-bottom { flex-direction: column; align-items: stretch; gap: 1rem; }
   .hero-cta { order: 1; width: auto; flex-direction: column; align-items: stretch; padding-bottom: 0; margin: 0 0 1rem; }
   .hero-sentence span { white-space: normal; }
-  .how-line { margin-top: 0.75rem; }
   .how-field { aspect-ratio: 4 / 3; }
   .hero-button { width: 100%; }
   .monument { font-size: 23vw; padding-bottom: 16px; }
@@ -324,7 +320,6 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
   .feat { padding: 5rem var(--margin); }
   .feat .head { font-size: 1.75rem; margin-bottom: 40px; }
   .feat-head { display: block; margin-bottom: 2rem; }
-  .feat-lead { white-space: normal; margin-top: 0.75rem; }
   .feat-lane { grid-template-columns: 1fr; gap: 0.75rem; padding: 1rem var(--margin) 1.25rem; min-height: 0; }
   .feat-group { padding-left: 0; font-size: 1.25rem; }
   .feat-lane li { height: 2.6rem; font-size: 1rem; padding: 0 1em; margin-right: 8px; }
