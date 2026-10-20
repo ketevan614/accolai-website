@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#08090b" />
-    <meta name="description" content="Accolai is a free desktop sequencer for Windows. Hum a tune, get notes, make the song." />
-    <meta property="og:title" content="Accolai — hum a tune, get notes" />
-    <meta property="og:description" content="A free desktop sequencer for Windows. Hum a tune, get notes, make the song." />
+    <meta name="theme-color" content="#0a0b0f" />
+    <meta name="description" content="Accolai is a free desktop sequencer for Windows. Hum a tune, get notes, let the agents build the song." />
+    <meta property="og:title" content="Accolai — hum a tune, get a song" />
+    <meta property="og:description" content="A free desktop sequencer for Windows. Hum a tune, get notes, let the agents build the song." />
     <meta property="og:type" content="website" />
-    <title>Accolai — hum a tune, get notes</title>
+    <title>Accolai — hum a tune, get a song</title>
     <script>document.documentElement.classList.add('js')</script>
     <link rel="icon" href="./logo.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://api.fontshare.com" />
@@ -20,7 +20,7 @@
   <body>
     <div class="progress" aria-hidden="true"></div>
     <div class="page">
-      <!-- ============ HERO: a field of sound you can play, under the name ============ -->
+      <!-- ============ HERO: the opening sequence ============ -->
       <header class="hero" id="top">
         <nav class="hero-nav" aria-label="Main">
           <a href="#how">How</a>
@@ -34,14 +34,31 @@
           <a href="#download">Download</a>
         </div>
 
-        <div class="field" id="field" aria-label="A sky of flying notes: drag to throw a melody, tap a note to pop it, or hum into the microphone">
-          <canvas id="field-canvas"></canvas>
-          <div class="field-ui">
-            <p class="field-hint" id="field-hint">Drag to throw notes. Tap one to pop it. Or hum.</p>
-            <div class="field-actions">
-              <button type="button" class="pill" id="btn-hum" aria-pressed="false">Hum</button>
-              <button type="button" class="pill" id="btn-play" hidden>Play it back</button>
-            </div>
+        <div class="story" id="story" aria-label="A hum becomes notes, an agent adds a beat, another adds a bass, and it plays">
+          <canvas class="story-wave" id="story-wave"></canvas>
+          <div class="story-grid" aria-hidden="true"></div>
+          <div class="lanes" id="lanes" aria-hidden="true">
+            <div class="lane lane-lead" id="lane-lead"><span class="lane-name">Voice</span></div>
+            <div class="lane lane-beat" id="lane-beat"><span class="lane-name">Beat</span></div>
+            <div class="lane lane-bass" id="lane-bass"><span class="lane-name">Bass</span></div>
+          </div>
+          <div class="playhead" id="playhead" aria-hidden="true"></div>
+          <div class="agent agent-a" id="agent-a" aria-hidden="true">
+            <svg viewBox="0 0 99 99"><circle cx="49.5" cy="49.5" r="44.5" fill="none" stroke="currentColor" stroke-width="8"/><circle class="eye" cx="28.3" cy="62" r="7.3"/><circle class="eye" cx="49.4" cy="70.8" r="7.3"/><circle class="eye" cx="71" cy="62" r="7.9"/></svg>
+          </div>
+          <div class="agent agent-b" id="agent-b" aria-hidden="true">
+            <svg viewBox="0 0 99 99"><circle cx="49.5" cy="49.5" r="44.5" fill="none" stroke="currentColor" stroke-width="8"/><circle class="eye" cx="28.3" cy="62" r="7.3"/><circle class="eye" cx="49.4" cy="70.8" r="7.3"/><circle class="eye" cx="71" cy="62" r="7.9"/></svg>
+          </div>
+          <div class="caps" aria-live="polite">
+            <p class="cap" data-cap="0">Someone hums.</p>
+            <p class="cap" data-cap="1">It becomes notes.</p>
+            <p class="cap" data-cap="2">An agent lays a beat.</p>
+            <p class="cap" data-cap="3">Another reshapes the chords and adds a bass.</p>
+            <p class="cap" data-cap="4">Now it is a song.</p>
+          </div>
+          <div class="story-ui">
+            <button type="button" class="pill pill-main" id="btn-hear"><span class="pill-ico" aria-hidden="true"></span>Hear it</button>
+            <button type="button" class="pill" id="btn-again">Play again</button>
           </div>
         </div>
 
@@ -51,7 +68,7 @@
               <h1 class="monument lines" data-fit="monument"><span class="line"><span data-line style="--i:0">accolai</span></span></h1>
             </div>
             <div class="hero-cta">
-              <p class="hero-sentence" data-rise style="--i:0">Hum a tune. Get notes. Make the song. A free sequencer for Windows.</p>
+              <p class="hero-sentence" data-rise style="--i:0">Hum a tune. The agents build the song. A free sequencer for Windows.</p>
               <a class="button hero-button" data-rise style="--i:1" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">Download for Windows</a>
             </div>
           </div>
@@ -59,7 +76,7 @@
       </header>
 
       <main>
-        <!-- ============ SCENE: a hum becomes notes ============ -->
+        <!-- ============ SCENE: a hum becomes notes, scrubbed by the scroll ============ -->
         <section class="scene hum-scene" data-scene="hum" data-options='{"hold":3}' aria-labelledby="hum-title" id="hum">
           <div class="scene-stage">
             <div class="hum-stage">
@@ -80,7 +97,7 @@
           </div>
         </section>
 
-        <!-- ============ HOW: three words ============ -->
+        <!-- ============ HOW: three words you can play ============ -->
         <section class="how" id="how" aria-labelledby="how-title">
           <h2 id="how-title" class="sr-only">How it works</h2>
           <div class="how-step" data-reveal>
@@ -98,32 +115,37 @@
           </div>
         </section>
 
-        <!-- music notes are the subject, not decoration: taste-skill-ignore --><div class="marquee" aria-hidden="true"><div class="marquee-track"><span><b>Hum it</b> <i>♪</i> <b>Shape it</b> <i>♪</i> <b>Stack it</b> <i>♪</i> <b>Bend it</b> <i>♪</i> <b>Play it</b> <i>♪</i> <b>Keep it</b> <i>♪</i></span><span><b>Hum it</b> <i>♪</i> <b>Shape it</b> <i>♪</i> <b>Stack it</b> <i>♪</i> <b>Bend it</b> <i>♪</i> <b>Play it</b> <i>♪</i> <b>Keep it</b> <i>♪</i></span></div></div>
+        <div class="marquee" aria-hidden="true"><div class="marquee-track"><span><b>Hum it</b> <i>·</i> <b>Shape it</b> <i>·</i> <b>Stack it</b> <i>·</i> <b>Bend it</b> <i>·</i> <b>Play it</b> <i>·</i> <b>Keep it</b> <i>·</i></span><span><b>Hum it</b> <i>·</i> <b>Shape it</b> <i>·</i> <b>Stack it</b> <i>·</i> <b>Bend it</b> <i>·</i> <b>Play it</b> <i>·</i> <b>Keep it</b> <i>·</i></span></div></div>
 
-        <!-- ============ INSIDE: the features, as bubbles you can push ============ -->
-        <section class="play" id="inside" aria-labelledby="feat-title">
+        <!-- ============ INSIDE ============ -->
+        <section class="feat" id="inside" aria-labelledby="feat-title">
           <h2 id="feat-title" class="head" data-reveal>Inside</h2>
-          <p class="play-hint" data-reveal>Push them. Pop them.</p>
-          <div class="bubbles" id="bubbles">
-            <button type="button" class="bubble" style="--n:0">Sing to notes</button>
-            <button type="button" class="bubble" style="--n:1">Piano roll</button>
-            <button type="button" class="bubble" style="--n:2">Pitch bend</button>
-            <button type="button" class="bubble" style="--n:3">Velocity</button>
-            <button type="button" class="bubble" style="--n:4">Grid snap</button>
-            <button type="button" class="bubble" style="--n:5">MIDI keyboard</button>
-            <button type="button" class="bubble" style="--n:6">Tempo curves</button>
-            <button type="button" class="bubble" style="--n:7">Loop it</button>
-            <button type="button" class="bubble" style="--n:8">A hundred instruments</button>
-            <button type="button" class="bubble" style="--n:9">Export WAV</button>
-            <button type="button" class="bubble" style="--n:10">Local first</button>
-            <button type="button" class="bubble" style="--n:11">MIDI files</button>
-            <button type="button" class="bubble" style="--n:12">Cloud if you want</button>
-            <button type="button" class="bubble" style="--n:13">Edit together</button>
-            <button type="button" class="bubble" style="--n:14">Free</button>
+          <div class="feat-grid">
+            <ul class="feat-col" data-reveal>
+              <li class="feat-group">Write</li>
+              <li>Sing to notes</li>
+              <li>Piano roll</li>
+              <li>Velocity and pitch bend</li>
+              <li>MIDI keyboard in</li>
+            </ul>
+            <ul class="feat-col" data-reveal>
+              <li class="feat-group">Agents</li>
+              <li>Lay a beat</li>
+              <li>Reshape the chords</li>
+              <li>Pick instruments</li>
+              <li>Arrange the song</li>
+            </ul>
+            <ul class="feat-col" data-reveal>
+              <li class="feat-group">Keep</li>
+              <li>Local first</li>
+              <li>Standard MIDI files</li>
+              <li>Export to WAV</li>
+              <li>Free</li>
+            </ul>
           </div>
         </section>
 
-        <!-- ============ CTA: one word is the button ============ -->
+        <!-- ============ CTA ============ -->
         <section class="cta" id="download" aria-labelledby="cta-title">
           <a class="cta-band" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">
             <svg class="cta-arrow" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38 L38 10 M16 10 H38 V32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg>
