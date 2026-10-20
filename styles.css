@@ -128,6 +128,8 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
 .hero-sentence { font-size: var(--step-body); line-height: 1.45; min-width: 0; }
 .hero-sentence span { display: block; white-space: nowrap; }
 .hero-sentence span + span { color: var(--muted); }
+.hero-others { font-size: var(--step-small); color: var(--muted); margin-top: -0.25rem; }
+.hero-others a { color: var(--ink); text-decoration: underline; text-underline-offset: 0.2em; }
 .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 2.5rem; min-height: 0; }
 .hero-mark { flex: 1 1 auto; min-width: 0; }
 .hero-cta { flex: 0 0 auto; width: min(22rem, 34%); display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; padding-bottom: 32px; }

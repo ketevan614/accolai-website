@@ -69,7 +69,8 @@
             </div>
             <div class="hero-cta">
               <p class="hero-sentence" data-rise style="--i:0"><span>Hum a tune. The agents build the song.</span> <span>Free, for Windows.</span></p>
-              <a class="button hero-button" data-rise style="--i:1" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">Download for Windows</a>
+              <a class="button hero-button" data-rise style="--i:1" data-dl="link" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe"><span data-dl="label">Download for Windows</span></a>
+              <p class="hero-others" data-rise style="--i:2" data-dl="others" hidden></p>
             </div>
           </div>
         </div>
@@ -140,9 +141,10 @@
 
         <!-- ============ CTA ============ -->
         <section class="cta" id="download" aria-labelledby="cta-title">
-          <a class="cta-band" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">
+          <a class="cta-band" data-dl="link" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">
             <svg class="cta-arrow" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38 L38 10 M16 10 H38 V32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg>
             <span class="cta-word" id="cta-title" data-fit="cta">Download</span>
+            <span class="cta-note" data-dl="note">Windows · 0.4.0 · 213 MB</span>
           </a>
         </section>
       </main>
@@ -151,9 +153,10 @@
         <div class="foot-cols">
           <ul class="foot-col">
             <li>Get it</li>
-            <li>Free · Windows 64-bit · 0.4.0 · 213 MB</li>
-            <li><a href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">Download for Windows</a></li>
-            <li><a href="https://github.com/ketevan614/accolai-downloads/releases/tag/v0.4.0" target="_blank" rel="noopener noreferrer">Release notes</a></li>
+            <li data-dl="meta">Free · Windows · 0.4.0 · 213 MB</li>
+            <li><a data-dl="link" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe"><span data-dl="label">Download for Windows</span></a></li>
+            <li data-dl="others" hidden></li>
+            <li><a data-dl="notes" href="https://github.com/ketevan614/accolai-downloads/releases/tag/v0.4.0" target="_blank" rel="noopener noreferrer">Release notes</a></li>
           </ul>
           <ul class="foot-col">
             <li>Runs on</li>
@@ -180,5 +183,6 @@
     <script src="./assets/hum.js"></script>
     <script src="./assets/app.js"></script>
     <script src="./assets/how.js"></script>
+    <script src="./assets/download.js"></script>
   </body>
 </html>
