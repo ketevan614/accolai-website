@@ -3,110 +3,166 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#111414" />
-    <meta name="description" content="Accolai is a desktop music workspace for turning ideas into MIDI. Shape notes, arrange tracks, and keep creating." />
-    <meta property="og:title" content="Accolai — Make room for the idea" />
-    <meta property="og:description" content="A desktop music workspace for turning ideas into MIDI. Available now for Windows." />
+    <meta name="theme-color" content="#08090b" />
+    <meta name="description" content="Accolai is a free desktop sequencer for Windows. Hum a tune, get notes, make the song." />
+    <meta property="og:title" content="Accolai — hum a tune, get notes" />
+    <meta property="og:description" content="A free desktop sequencer for Windows. Hum a tune, get notes, make the song." />
     <meta property="og:type" content="website" />
-    <title>Accolai — Make room for the idea</title>
+    <title>Accolai — hum a tune, get notes</title>
+    <script>document.documentElement.classList.add('js')</script>
     <link rel="icon" href="./logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/stage.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="site-shell">
-      <header class="site-header">
-        <a class="brand" href="#top" aria-label="Accolai home">
-          <span class="brand-mark"><img src="./logo.svg" alt="" /></span>
-          <span>accolai<span class="brand-period">.</span></span>
-        </a>
-        <nav class="desktop-nav" aria-label="Main navigation">
-          <a href="#workflow">How it works</a>
-          <a href="#details">Features</a>
-          <a href="https://github.com/ketevan614/accolai-downloads/releases/tag/v0.4.0" target="_blank" rel="noopener noreferrer">Release notes <span aria-hidden="true">↗</span></a>
+    <div class="progress" aria-hidden="true"></div>
+    <div class="page">
+      <!-- ============ HERO: a field of sound you can play, under the name ============ -->
+      <header class="hero" id="top">
+        <nav class="hero-nav" aria-label="Main">
+          <a href="#how">How</a>
+          <a href="#inside">Inside</a>
+          <a href="#download">Download</a>
         </nav>
-        <a class="nav-download" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">Download for Windows <span aria-hidden="true">↗</span></a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="phone-menu">Menu</button>
+        <div class="phone-menu" id="phone-menu" hidden>
+          <a href="#how">How</a>
+          <a href="#inside">Inside</a>
+          <a href="#download">Download</a>
+        </div>
+
+        <div class="field" id="field" aria-label="A sky of flying notes: drag to throw a melody, tap a note to pop it, or hum into the microphone">
+          <canvas id="field-canvas"></canvas>
+          <div class="field-ui">
+            <p class="field-hint" id="field-hint">Drag to throw notes. Tap one to pop it. Or hum.</p>
+            <div class="field-actions">
+              <button type="button" class="pill" id="btn-hum" aria-pressed="false">Hum</button>
+              <button type="button" class="pill" id="btn-play" hidden>Play it back</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-band">
+          <div class="hero-bottom">
+            <div class="hero-mark">
+              <h1 class="monument lines" data-fit="monument"><span class="line"><span data-line style="--i:0">accolai</span></span></h1>
+            </div>
+            <div class="hero-cta">
+              <p class="hero-sentence" data-rise style="--i:0">Hum a tune. Get notes. Make the song. A free sequencer for Windows.</p>
+              <a class="button hero-button" data-rise style="--i:1" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">Download for Windows</a>
+            </div>
+          </div>
+        </div>
       </header>
 
-      <main id="top">
-        <section class="hero" aria-labelledby="hero-title">
-          <div class="hero-copy">
-            <h1 id="hero-title">Make room<br />for the <em>idea.</em></h1>
-            <p class="hero-description">Accolai is a desktop music workspace for turning ideas into MIDI. Capture a phrase, shape every note, and build the whole song.</p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">
-                <span class="button-icon" aria-hidden="true">↓</span>
-                Download Accolai
-              </a>
-              <a class="text-link" href="#workflow">Explore the workspace <span aria-hidden="true">↗</span></a>
-            </div>
-            <p class="release-caption">Free download · Windows 64-bit · Version 0.4.0</p>
-          </div>
-
-          <div class="hero-visual" aria-label="Illustration of Accolai's music editing workspace">
-            <div class="orbit orbit-one" aria-hidden="true"></div>
-            <div class="orbit orbit-two" aria-hidden="true"></div>
-            <div class="editor-window" data-ui="sequencer-illustration">
-              <div class="editor-topbar">
-                <div class="window-controls" aria-hidden="true"><i></i><i></i><i></i></div>
-                <span class="project-title">New idea / 01</span>
-                <span class="editor-save">Saved locally <span aria-hidden="true">●</span></span>
+      <main>
+        <!-- ============ SCENE: a hum becomes notes ============ -->
+        <section class="scene hum-scene" data-scene="hum" data-options='{"hold":3}' aria-labelledby="hum-title" id="hum">
+          <div class="scene-stage">
+            <div class="hum-stage">
+              <div class="hum-copy">
+                <h2 id="hum-title" class="head">From a hum to notes</h2>
+                <p class="hum-cap" data-cap="0">You hum.</p>
+                <p class="hum-cap" data-cap="1">It listens.</p>
+                <p class="hum-cap" data-cap="2">It writes notes.</p>
+                <p class="hum-cap" data-cap="3">Now they are yours.</p>
               </div>
-              <div class="editor-tools"><span class="tool-active">Arrange</span><span>Piano roll</span><span class="tempo">120 BPM</span><span class="time-signature">4 / 4</span></div>
-              <div class="timeline"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span></div>
-              <div class="arrangement">
-                <div class="track-label"><span class="track-icon track-purple">K</span><span>Keys <small>Warm piano</small></span></div>
-                <div class="track-lane"><div class="clip clip-purple"><span class="mini-note n1"></span><span class="mini-note n2"></span><span class="mini-note n3"></span><span class="mini-note n4"></span><span class="mini-note n5"></span><span class="mini-note n6"></span></div></div>
-                <div class="track-label"><span class="track-icon track-orange">D</span><span>Drums <small>Soft kit</small></span></div>
-                <div class="track-lane"><div class="clip clip-orange"><span class="drum-line"></span></div></div>
-                <div class="track-label"><span class="track-icon track-blue">B</span><span>Bass <small>Electric bass</small></span></div>
-                <div class="track-lane"><div class="clip clip-blue"><span class="bass-line"></span></div></div>
-                <div class="playhead" aria-hidden="true"></div>
+              <div class="hum-pic" aria-label="A sung line turning into notes">
+                <svg class="hum-wave" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true"><path id="hum-wave-path" d="" /></svg>
+                <div class="hum-notes" id="hum-notes" aria-hidden="true"></div>
+                <div class="hum-vel" id="hum-vel" aria-hidden="true"></div>
+                <div class="hum-cursor" aria-hidden="true"></div>
               </div>
-              <div class="piano-header"><span>Piano roll</span><span>Velocity <span aria-hidden="true">⌄</span></span></div>
-              <div class="piano-section">
-                <div class="piano-keys"><span>C5</span><span>B4</span><span>A4</span><span>G4</span><span>F4</span><span>E4</span></div>
-                <div class="note-grid">
-                  <i class="note note-a"></i><i class="note note-b"></i><i class="note note-c"></i><i class="note note-d"></i><i class="note note-e"></i><i class="note note-f"></i><i class="note note-g"></i><i class="note note-h"></i><i class="note note-i"></i>
-                </div>
-              </div>
-              <div class="transport"><span class="transport-play" aria-hidden="true">▶</span><span>01 : 02 : 04</span><span class="transport-dots" aria-hidden="true">▂ ▄ ▆ ▃ ▇ ▅ ▂ ▄ ▆ ▃</span></div>
-            </div>
-            <div class="visual-badge"><span>From a small spark<br /><strong>to something real.</strong></span></div>
-            <p class="illustration-label">Interface illustration</p>
-          </div>
-        </section>
-
-        <div class="marquee" aria-label="Create, shape, arrange, repeat"><div>CREATE <span>/</span> SHAPE <span>/</span> ARRANGE <span>/</span> REPEAT <span>/</span> CREATE <span>/</span> SHAPE <span>/</span> ARRANGE <span>/</span> REPEAT <span>/</span></div></div>
-
-        <section class="workflow section-wrap" id="workflow" aria-labelledby="workflow-title">
-          <div class="section-heading"><h2 id="workflow-title">Follow the idea<br /><em>where it goes.</em></h2><p>Start with a MIDI file, a note, or a phrase you sing. Accolai gives each idea room to become a song.</p></div>
-          <div class="workflow-steps">
-            <article class="step"><h3>First, catch a phrase.</h3><p>Sing or hum a melody and turn a take into notes you can edit. Or open a MIDI file and pick up where you left off.</p></article>
-            <article class="step"><h3>Then, shape the notes.</h3><p>Move through the piano roll, adjust timing and velocity, and make the musical details feel like yours.</p></article>
-            <article class="step"><h3>Now, build the song.</h3><p>Arrange parts across tracks, listen back, and keep refining without leaving your creative flow.</p></article>
-          </div>
-        </section>
-
-        <section class="feature-band" id="details" aria-labelledby="details-title">
-          <div class="feature-inner section-wrap">
-            <div class="feature-intro"><h2 id="details-title">Every note<br /><em>in its place.</em></h2><p>Tools that stay close to the music, from the first note to the full arrangement.</p><a class="text-link light" href="#download">Get Accolai <span aria-hidden="true">↗</span></a></div>
-            <div class="feature-list">
-              <div class="feature-item"><div><h3>Piano roll precision</h3><p>Write, move, and refine notes on a timeline made for MIDI editing.</p></div><span aria-hidden="true">↗</span></div>
-              <div class="feature-item"><div><h3>Tracks in context</h3><p>See parts together in the arrange view and work on the whole song.</p></div><span aria-hidden="true">↗</span></div>
-              <div class="feature-item"><div><h3>Ideas from your voice</h3><p>Capture a sung or hummed phrase and turn it into editable notes.</p></div><span aria-hidden="true">↗</span></div>
-              <div class="feature-item"><div><h3>Local first, cloud when needed</h3><p>Edit MIDI on your desktop without signing in. Sign in when you want cloud saving and sharing.</p></div><span aria-hidden="true">↗</span></div>
             </div>
           </div>
         </section>
 
-        <section class="download-section section-wrap" id="download" aria-labelledby="download-title">
-          <div class="download-copy"><h2 id="download-title">Open up a<br /><em>new sound.</em></h2><p>Accolai is ready for Windows. Download the installer and get straight to making music.</p><a class="button button-dark" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe"><span class="button-icon" aria-hidden="true">↓</span> Download for Windows</a><p class="download-meta">Windows 64-bit · Version 0.4.0 · Approx. 213 MB</p></div>
-          <div class="download-art" aria-hidden="true"><div class="disc disc-outer"><div class="disc disc-middle"><div class="disc disc-inner"><img src="./logo.svg" alt="" /></div></div></div><div class="disc-tag">LET'S MAKE<br />SOMETHING</div></div>
+        <!-- ============ HOW: three words ============ -->
+        <section class="how" id="how" aria-labelledby="how-title">
+          <h2 id="how-title" class="sr-only">How it works</h2>
+          <div class="how-step" data-reveal>
+            <button type="button" class="how-word" data-fx="hum" aria-label="Hum: hover or tap to hear it sing">Hum.</button>
+            <p class="how-line">Sing it, whistle it, hum it.</p>
+          </div>
+          <div class="how-step" data-reveal>
+            <button type="button" class="how-word" data-fx="shape" aria-label="Shape: drag across the word to stretch it">Shape.</button>
+            <p class="how-line">Drag, stretch, hit harder.</p>
+          </div>
+          <div class="how-step" data-reveal>
+            <button type="button" class="how-word" data-fx="build" aria-label="Build: tap to stack a beat">Build.</button>
+            <p class="how-line">Bass, drums, tempo. Done.</p>
+            <div class="how-stack" id="how-stack" aria-hidden="true"></div>
+          </div>
         </section>
-        <div class="notice section-wrap"><span aria-hidden="true">ⓘ</span><p>This Windows installer is currently unsigned, so Windows may show an unknown publisher warning. <a href="https://github.com/ketevan614/accolai-downloads/releases/tag/v0.4.0" target="_blank" rel="noopener noreferrer">View release details</a>.</p></div>
+
+        <!-- music notes are the subject, not decoration: taste-skill-ignore --><div class="marquee" aria-hidden="true"><div class="marquee-track"><span><b>Hum it</b> <i>♪</i> <b>Shape it</b> <i>♪</i> <b>Stack it</b> <i>♪</i> <b>Bend it</b> <i>♪</i> <b>Play it</b> <i>♪</i> <b>Keep it</b> <i>♪</i></span><span><b>Hum it</b> <i>♪</i> <b>Shape it</b> <i>♪</i> <b>Stack it</b> <i>♪</i> <b>Bend it</b> <i>♪</i> <b>Play it</b> <i>♪</i> <b>Keep it</b> <i>♪</i></span></div></div>
+
+        <!-- ============ INSIDE: the features, as bubbles you can push ============ -->
+        <section class="play" id="inside" aria-labelledby="feat-title">
+          <h2 id="feat-title" class="head" data-reveal>Inside</h2>
+          <p class="play-hint" data-reveal>Push them. Pop them.</p>
+          <div class="bubbles" id="bubbles">
+            <button type="button" class="bubble" style="--n:0">Sing to notes</button>
+            <button type="button" class="bubble" style="--n:1">Piano roll</button>
+            <button type="button" class="bubble" style="--n:2">Pitch bend</button>
+            <button type="button" class="bubble" style="--n:3">Velocity</button>
+            <button type="button" class="bubble" style="--n:4">Grid snap</button>
+            <button type="button" class="bubble" style="--n:5">MIDI keyboard</button>
+            <button type="button" class="bubble" style="--n:6">Tempo curves</button>
+            <button type="button" class="bubble" style="--n:7">Loop it</button>
+            <button type="button" class="bubble" style="--n:8">A hundred instruments</button>
+            <button type="button" class="bubble" style="--n:9">Export WAV</button>
+            <button type="button" class="bubble" style="--n:10">Local first</button>
+            <button type="button" class="bubble" style="--n:11">MIDI files</button>
+            <button type="button" class="bubble" style="--n:12">Cloud if you want</button>
+            <button type="button" class="bubble" style="--n:13">Edit together</button>
+            <button type="button" class="bubble" style="--n:14">Free</button>
+          </div>
+        </section>
+
+        <!-- ============ CTA: one word is the button ============ -->
+        <section class="cta" id="download" aria-labelledby="cta-title">
+          <a class="cta-band" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">
+            <svg class="cta-arrow" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38 L38 10 M16 10 H38 V32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg>
+            <span class="cta-word" id="cta-title" data-fit="cta">Download</span>
+          </a>
+        </section>
       </main>
 
-      <footer class="site-footer"><div class="footer-top"><a class="brand" href="#top" aria-label="Accolai home"><span class="brand-mark"><img src="./logo.svg" alt="" /></span><span>accolai<span class="brand-period">.</span></span></a><p>Make room for the idea.</p></div><div class="footer-bottom"><span>© 2026 Accolai</span><span>Built on the open-source <a href="https://github.com/ryohey/signal" target="_blank" rel="noopener noreferrer">signal</a> project (MIT).</span><a href="https://github.com/ketevan614/accolai-downloads" target="_blank" rel="noopener noreferrer">Downloads & releases ↗</a></div></footer>
+      <footer class="foot" id="footer">
+        <div class="foot-cols">
+          <ul class="foot-col">
+            <li>Get it</li>
+            <li>Free · Windows 64-bit · 0.4.0 · 213 MB</li>
+            <li><a href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">Download for Windows</a></li>
+            <li><a href="https://github.com/ketevan614/accolai-downloads/releases/tag/v0.4.0" target="_blank" rel="noopener noreferrer">Release notes</a></li>
+          </ul>
+          <ul class="foot-col">
+            <li>Runs on</li>
+            <li>Windows 10 and 11</li>
+            <li>macOS and Linux soon</li>
+          </ul>
+          <ul class="foot-col">
+            <li>Built on</li>
+            <li><a href="https://github.com/ryohey/signal" target="_blank" rel="noopener noreferrer">signal</a>, MIT</li>
+            <li>No account needed</li>
+          </ul>
+        </div>
+        <div class="foot-mark">
+          <p class="foot-word" data-fit="foot">accolai</p>
+          <p class="foot-legal">© 2026 Accolai · The installer is unsigned for now, so Windows may ask once.</p>
+        </div>
+      </footer>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+    <script src="./assets/stage.js"></script>
+    <script src="./assets/hum.js"></script>
+    <script src="./assets/app.js"></script>
   </body>
 </html>
