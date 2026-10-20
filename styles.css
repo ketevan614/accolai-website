@@ -1,9 +1,9 @@
 /* Accolai — landing page. Black and white. One display face, one text face. */
 
 :root {
-  --bg: #0a0b0f;
-  --surface: #12141a;
-  --surface-2: #1b1e26;
+  --bg: #0a0c12;
+  --surface: #11161f;
+  --surface-2: #19202c;
   --ink: #f4f5f7;
   --muted: #8d919c;
   --accent: #5b9cff;
@@ -125,7 +125,9 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
 
 /* the band under the field */
 .hero-band { padding: 1.25rem var(--margin) 0; }
-.hero-sentence { font-size: var(--step-body); line-height: 1.45; max-width: 30ch; min-width: 0; }
+.hero-sentence { font-size: var(--step-body); line-height: 1.45; min-width: 0; }
+.hero-sentence span { display: block; white-space: nowrap; }
+.hero-sentence span + span { color: var(--muted); }
 .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 2.5rem; min-height: 0; }
 .hero-mark { flex: 1 1 auto; min-width: 0; }
 .hero-cta { flex: 0 0 auto; width: min(22rem, 34%); display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; padding-bottom: 32px; }
@@ -142,7 +144,7 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
 /* ======================================================================
    SCENE: a hum becomes notes, on a white screen
    ====================================================================== */
-.hum-scene { --hum-ground: #12141a; --hum-ink: var(--ink); }
+.hum-scene { --hum-ground: var(--surface); --hum-ink: var(--ink); }
 .hum-stage { min-height: 100svh; display: grid; grid-template-columns: 4fr 8fr; gap: var(--gutter); padding: var(--margin); background: var(--hum-ground); color: var(--hum-ink); }
 .hum-copy { display: flex; flex-direction: column; justify-content: center; padding-right: 2rem; position: relative; }
 .hum-copy .head { margin-bottom: 1.5rem; }
@@ -169,24 +171,22 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
 /* ======================================================================
    HOW: three words
    ====================================================================== */
-.how { padding: var(--section) var(--margin) calc(var(--section) + 3rem); display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); align-items: end; }
-.how-step { position: relative; }
+.how { padding: var(--section) var(--margin) calc(var(--section) - 2rem); display: grid; gap: clamp(4rem, 8vw, 8rem); }
+.how-step { display: grid; grid-template-columns: 5fr 7fr; gap: var(--gutter); align-items: center; }
+.how-shape { grid-template-columns: 7fr 5fr; }
+.how-copy { position: relative; }
 .how-word { display: block; font-family: var(--font-display); font-weight: 600; font-size: clamp(64px, 8vw, 128px); line-height: 0.9; letter-spacing: -0.04em; text-align: left; cursor: pointer; touch-action: none; user-select: none; transform-origin: left center; }
-.how-word .l { display: inline-block; will-change: transform; }
-.how-word .l { transition: color 300ms ease; }
+.how-word .l { display: inline-block; will-change: transform; transition: color 300ms ease; }
 .how-word[data-fx="hum"].is-on .l { animation: hum-wave 700ms var(--ease-in-out) infinite alternate; animation-delay: calc(var(--n) * -90ms); }
-@keyframes hum-wave { from { transform: translateY(-0.08em) rotate(-3deg); } to { transform: translateY(0.08em) rotate(3deg); } }
+@keyframes hum-wave { from { transform: translateY(0.04em); } to { transform: translateY(-0.06em); } }
 .how-word[data-fx="shape"] { transition: transform 500ms var(--ease-out); }
 .how-word[data-fx="shape"].is-on { transition: none; }
 .how-word[data-fx="build"] .l { transition: transform 420ms var(--ease-out); }
 .how-word[data-fx="build"].is-hit .l { transform: translateY(-0.12em); transition-duration: 80ms; }
-.how-stack { position: absolute; left: 0; right: 0; top: calc(100% + 1.25rem); display: flex; gap: 6px; flex-wrap: wrap; }
-.how-stack i { display: block; height: 16px; border-radius: 999px; background: var(--c3); transform-origin: left center; animation: block-in 500ms var(--ease-expo) both; transition: transform 120ms var(--ease-out); }
-.how-stack i.kick { width: 23%; background: var(--amber); } .how-stack i.snare { width: 15%; background: #ffd08a; } .how-stack i.hat { width: 8%; background: #8a6a33; }
-@keyframes block-in { from { transform: scaleX(0.2) translateY(-10px); opacity: 0; } to { transform: none; opacity: 1; } }
-.how-line { margin-top: 1rem; font-size: var(--step-body); }
-.how-step:nth-child(3) { padding-top: 4rem; }
-.how-step:nth-child(4) { padding-top: 8rem; }
+.how-line { margin-top: 1.25rem; font-size: var(--step-body); max-width: 30ch; }
+.how-field { position: relative; background: var(--surface); aspect-ratio: 16 / 10; overflow: hidden; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; transition: background var(--t-ui) ease; }
+.how-field.is-on { background: var(--surface-2); }
+.how-field canvas { display: block; width: 100%; height: 100%; }
 
 /* ======================================================================
    MARQUEE
@@ -196,23 +196,28 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
 .marquee-track b { display: inline-block; font-weight: inherit; transition: transform 300ms var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .marquee-track b:hover { transform: translateY(-0.18em) rotate(-4deg); } }
 .marquee-track span { display: inline-flex; gap: 3rem; }
-.marquee-track i { font-style: normal; color: var(--muted); }
+.marquee-track i { font-style: normal; color: var(--blue); }
 @media (prefers-reduced-motion: no-preference) { .marquee-track { animation: marquee 22s linear infinite; } }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ======================================================================
    INSIDE
    ====================================================================== */
-.feat { padding: 12vh var(--margin); }
-.feat .head { margin-bottom: 64px; }
-.feat-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
-.feat-col { font-size: var(--step-lead); line-height: 1.25; letter-spacing: -0.01em; }
-.feat-col:nth-child(1) { grid-column: 1 / 5; }
-.feat-col:nth-child(2) { grid-column: 5 / 9; }
-.feat-col:nth-child(3) { grid-column: 9 / 13; }
-.feat-group { font-weight: 700; color: var(--muted); font-size: var(--step-body); margin-bottom: 1em; }
-.feat-col li:not(.feat-group) { padding: 0.1em 0; transition: transform var(--t-ui) var(--ease-out), color var(--t-hover) ease; }
-@media (hover: hover) and (pointer: fine) { .feat-col li:not(.feat-group):hover { transform: translateX(8px); color: var(--blue); } }
+.feat { padding: var(--section) var(--margin); }
+.feat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; }
+.feat .head { margin: 0; }
+.feat-lead { font-size: var(--step-body); color: var(--ink); white-space: nowrap; margin: 0; }
+.feat-roll { display: grid; gap: 10px; }
+.feat-lane { display: grid; grid-template-columns: 8rem 1fr; align-items: center; gap: var(--gutter); min-height: 6.5rem; padding: 0.75rem 0; background: var(--surface); }
+.feat-lane:nth-child(2) { background: var(--surface-2); }
+.feat-group { font-family: var(--font-display); font-weight: 600; font-size: var(--step-lead); letter-spacing: -0.02em; padding-left: 1.25rem; color: var(--blue); margin: 0; }
+.feat-lane ul { display: flex; flex-wrap: wrap; row-gap: 10px; align-items: center; list-style: none; margin: 0; padding: 0; }
+.feat-lane[data-lane="1"] ul { padding-left: 6%; }
+.feat-lane[data-lane="2"] ul { padding-left: 2%; }
+.feat-lane li { display: inline-flex; align-items: center; height: 3.2rem; padding: 0 1.4em; margin-right: 10px; border-radius: 999px; background: var(--ink); color: var(--bg); font-family: var(--font-display); font-weight: 600; font-size: clamp(1rem, 1.5vw, 1.4rem); letter-spacing: -0.02em; white-space: nowrap; cursor: default; transition: transform var(--t-ui) var(--ease-out), background var(--t-hover) ease, opacity var(--t-hover) ease; }
+.feat-lane li:nth-child(2) { opacity: 0.86; } .feat-lane li:nth-child(4) { opacity: 0.72; }
+@media (hover: hover) and (pointer: fine) { .feat-lane li:hover { transform: translateY(-6px) scale(1.04); background: var(--blue); color: var(--accent-ink); opacity: 1; } }
+.feat-lane li.is-ping { transform: translateY(-6px) scale(1.06); background: var(--blue); color: var(--accent-ink); opacity: 1; }
 
 /* ======================================================================
    CTA
@@ -246,14 +251,14 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
   .js .lines [data-line] { transform: translateY(105%); animation: ad-line 1100ms var(--ease-expo) forwards; animation-delay: 250ms; }
   .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out); }
   .js [data-reveal].is-in { opacity: 1; transform: none; }
-  .js .feat-col[data-reveal] li { opacity: 0; transform: translateY(12px); transition: opacity 500ms var(--ease-out), transform 600ms var(--ease-out); transition-delay: calc(var(--k, 0) * 60ms); }
-  .js .feat-col[data-reveal].is-in li { opacity: 1; transform: none; }
+  .js .feat-lane[data-reveal] li { opacity: 0; transform: translateY(12px); transition: opacity 500ms var(--ease-out), transform 600ms var(--ease-out); transition-delay: calc(var(--k, 0) * 60ms); }
+  .js .feat-lane[data-reveal].is-in li { opacity: 1; transform: none; }
   .js .how-step[data-reveal] .how-word { display: inline-block; transition: transform 900ms var(--ease-expo); transform: translateY(0.4em) rotate(2deg); transform-origin: left bottom; }
   .js .how-step[data-reveal].is-in .how-word { transform: none; }
   @supports (animation-timeline: view()) {
     .js [data-reveal]:not(.is-in) { transition: none; animation: ad-reveal linear both; animation-timeline: view(); animation-range: entry 8% entry 42%; }
-    .js .feat-col[data-reveal] { animation: none; opacity: 1; transform: none; }
-    .js .feat-col[data-reveal]:not(.is-in) li { transition: none; animation: ad-reveal linear both; animation-timeline: view(); animation-range: entry calc(4% + var(--k, 0) * 2.5%) entry calc(40% + var(--k, 0) * 2.5%); }
+    .js .feat-lane[data-reveal] { animation: none; opacity: 1; transform: none; }
+    .js .feat-lane[data-reveal]:not(.is-in) li { transition: none; animation: ad-reveal linear both; animation-timeline: view(); animation-range: entry calc(4% + var(--k, 0) * 2.5%) entry calc(40% + var(--k, 0) * 2.5%); }
   }
 }
 @keyframes ad-rise { to { opacity: 1; transform: none; } }
@@ -271,15 +276,14 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
   .hero-bottom { flex-direction: column; align-items: stretch; gap: 1rem; }
   .hero-cta { order: 1; width: auto; flex-direction: row; justify-content: space-between; align-items: center; padding-bottom: 0; margin-bottom: 1.25rem; }
   .hum-stage { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 1rem; }
-  .hum-copy { padding-right: 0; min-height: 12rem; justify-content: flex-start; }
+  .hum-copy { padding-right: 0; min-height: 11rem; justify-content: flex-start; }
   .js .hum-scene.is-live .hum-copy .head { position: static; transform: none; white-space: normal; }
   .js .hum-scene.is-live .hum-cap { top: 4.5rem; }
-  .hum-pic { align-self: start; }
-  .how { grid-template-columns: 1fr; gap: 3rem; }
-  .how-step { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; padding-bottom: 2.5rem; }
-  .how-line { margin-top: 0; text-align: right; }
-  .how-stack { top: auto; bottom: 0; }
-  .how-step:nth-child(3), .how-step:nth-child(4) { padding-top: 0; }
+  .hum-pic { align-self: stretch; aspect-ratio: auto; width: 100%; height: auto; max-height: 62svh; margin-bottom: 1rem; }
+  .hum-note { border-radius: 6px; }
+  .how-step, .how-shape { grid-template-columns: 1fr; gap: 1.5rem; }
+  .how-shape .how-copy { order: -1; }
+  .how-line { max-width: none; }
   .foot { min-height: 0; }
   .foot-mark { padding-top: 4rem; }
 }
@@ -302,22 +306,27 @@ main, .hero { position: relative; z-index: 1; background: var(--bg); }
   .hero-band { padding-top: 1rem; }
   .hero-bottom { flex-direction: column; align-items: stretch; gap: 1rem; }
   .hero-cta { order: 1; width: auto; flex-direction: column; align-items: stretch; padding-bottom: 0; margin: 0 0 1rem; }
-  .hero-sentence { max-width: none; }
-  .how-step { display: block; }
-  .how-line { text-align: left; margin-top: 0.75rem; }
+  .hero-sentence span { white-space: normal; }
+  .how-line { margin-top: 0.75rem; }
+  .how-field { aspect-ratio: 4 / 3; }
   .hero-button { width: 100%; }
   .monument { font-size: 23vw; padding-bottom: 16px; }
   .hum-stage { padding: 1.25rem var(--margin); }
   .hum-copy .head { font-size: 1.75rem; margin-bottom: 1rem; }
   .hum-cap { font-size: 1.375rem; }
-  .hum-pic { aspect-ratio: 1000 / 560; }
+  .hum-pic { max-height: 60svh; }
+  .hum-wave path { stroke-width: 3; }
+  .hum-bot { width: 56px; }
   .how { padding: 5rem var(--margin); }
   .how-word { font-size: 18vw; }
   .feat { padding: 5rem var(--margin); }
   .feat .head { font-size: 1.75rem; margin-bottom: 40px; }
-  .feat-grid { display: block; }
-  .feat-col { font-size: var(--step-body); line-height: 1.4; }
-  .feat-col + .feat-col { margin-top: 40px; }
+  .feat-head { display: block; margin-bottom: 2rem; }
+  .feat-lead { white-space: normal; margin-top: 0.75rem; }
+  .feat-lane { grid-template-columns: 1fr; gap: 0.75rem; padding: 1rem var(--margin) 1.25rem; min-height: 0; }
+  .feat-group { padding-left: 0; font-size: 1.25rem; }
+  .feat-lane li { height: 2.6rem; font-size: 1rem; padding: 0 1em; margin-right: 8px; }
+  .feat-lane[data-lane="1"] ul, .feat-lane[data-lane="2"] ul { padding-left: 0; }
   .cta { padding-top: 5rem; }
   .cta-band { min-height: 46svh; padding-top: 20px; }
   .cta-note { position: static; max-width: 26ch; text-align: left; }

@@ -60,7 +60,7 @@
       hold: o.hold ?? 3,
       scrub: 0.4,
       beats: 4,
-      phone: 'same',
+      phone: { hold: 2 },
       build(tl, ctx) {
         const notes = ctx.q('.hum-note');
         const vels = ctx.q('.hum-vel i');

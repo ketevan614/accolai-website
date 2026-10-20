@@ -68,7 +68,7 @@
               <h1 class="monument lines" data-fit="monument"><span class="line"><span data-line style="--i:0">accolai</span></span></h1>
             </div>
             <div class="hero-cta">
-              <p class="hero-sentence" data-rise style="--i:0">Hum a tune. The agents build the song. A free sequencer for Windows.</p>
+              <p class="hero-sentence" data-rise style="--i:0"><span>Hum a tune. The agents build the song.</span> <span>Free, for Windows.</span></p>
               <a class="button hero-button" data-rise style="--i:1" href="https://github.com/ketevan614/accolai-downloads/releases/download/v0.4.0/Accolai-Setup.exe">Download for Windows</a>
             </div>
           </div>
@@ -97,51 +97,44 @@
           </div>
         </section>
 
-        <!-- ============ HOW: three words you can play ============ -->
+        <!-- ============ HOW: three words you can play, each with its own picture ============ -->
         <section class="how" id="how" aria-labelledby="how-title">
           <h2 id="how-title" class="sr-only">How it works</h2>
-          <div class="how-step" data-reveal>
-            <button type="button" class="how-word" data-fx="hum" aria-label="Hum: hover or tap to hear it sing">Hum.</button>
-            <p class="how-line">Sing it, whistle it, hum it.</p>
+          <div class="how-step how-hum" data-reveal>
+            <div class="how-copy">
+              <button type="button" class="how-word" data-fx="hum" aria-label="Hum: hover or tap to hear it sing">Hum.</button>
+              <p class="how-line">Sing it, whistle it, hum it. Hover to hear a voice turn into notes.</p>
+            </div>
+            <div class="how-field" data-field="hum" aria-hidden="true"><canvas></canvas></div>
           </div>
-          <div class="how-step" data-reveal>
-            <button type="button" class="how-word" data-fx="shape" aria-label="Shape: drag across the word to stretch it">Shape.</button>
-            <p class="how-line">Drag, stretch, hit harder.</p>
+          <div class="how-step how-shape" data-reveal>
+            <div class="how-field" data-field="shape" aria-hidden="true"><canvas></canvas></div>
+            <div class="how-copy">
+              <button type="button" class="how-word" data-fx="shape" aria-label="Shape: drag inside the picture to stretch and bend a note">Shape.</button>
+              <p class="how-line">Drag, stretch, hit harder. Grab the note and pull it anywhere.</p>
+            </div>
           </div>
-          <div class="how-step" data-reveal>
-            <button type="button" class="how-word" data-fx="build" aria-label="Build: tap to stack a beat">Build.</button>
-            <p class="how-line">Bass, drums, tempo. Done.</p>
-            <div class="how-stack" id="how-stack" aria-hidden="true"></div>
+          <div class="how-step how-build" data-reveal>
+            <div class="how-copy">
+              <button type="button" class="how-word" data-fx="build" aria-label="Build: tap to drop a drum into the tower">Build.</button>
+              <p class="how-line">Bass, drums, tempo. Tap eight times and the tower plays itself.</p>
+            </div>
+            <div class="how-field" data-field="build" aria-hidden="true"><canvas></canvas></div>
           </div>
         </section>
 
         <div class="marquee" aria-hidden="true"><div class="marquee-track"><span><b>Hum it</b> <i>·</i> <b>Shape it</b> <i>·</i> <b>Stack it</b> <i>·</i> <b>Bend it</b> <i>·</i> <b>Play it</b> <i>·</i> <b>Keep it</b> <i>·</i></span><span><b>Hum it</b> <i>·</i> <b>Shape it</b> <i>·</i> <b>Stack it</b> <i>·</i> <b>Bend it</b> <i>·</i> <b>Play it</b> <i>·</i> <b>Keep it</b> <i>·</i></span></div></div>
 
-        <!-- ============ INSIDE ============ -->
+        <!-- ============ INSIDE: the features laid out like a song, three lanes of notes ============ -->
         <section class="feat" id="inside" aria-labelledby="feat-title">
-          <h2 id="feat-title" class="head" data-reveal>Inside</h2>
-          <div class="feat-grid">
-            <ul class="feat-col" data-reveal>
-              <li class="feat-group">Write</li>
-              <li>Sing to notes</li>
-              <li>Piano roll</li>
-              <li>Velocity and pitch bend</li>
-              <li>MIDI keyboard in</li>
-            </ul>
-            <ul class="feat-col" data-reveal>
-              <li class="feat-group">Agents</li>
-              <li>Lay a beat</li>
-              <li>Reshape the chords</li>
-              <li>Pick instruments</li>
-              <li>Arrange the song</li>
-            </ul>
-            <ul class="feat-col" data-reveal>
-              <li class="feat-group">Keep</li>
-              <li>Local first</li>
-              <li>Standard MIDI files</li>
-              <li>Export to WAV</li>
-              <li>Free</li>
-            </ul>
+          <div class="feat-head" data-reveal>
+            <h2 id="feat-title" class="head">Inside</h2>
+            <p class="feat-lead">Every feature is a note. Hover one to hear it.</p>
+          </div>
+          <div class="feat-roll">
+            <div class="feat-lane" data-reveal data-lane="0"><h3 class="feat-group">Write</h3><ul><li>Sing to notes</li><li>Piano roll</li><li>Velocity and pitch bend</li><li>MIDI keyboard in</li></ul></div>
+            <div class="feat-lane" data-reveal data-lane="1"><h3 class="feat-group">Agents</h3><ul><li>Lay a beat</li><li>Reshape the chords</li><li>Pick instruments</li><li>Arrange the song</li></ul></div>
+            <div class="feat-lane" data-reveal data-lane="2"><h3 class="feat-group">Keep</h3><ul><li>Local first</li><li>Standard MIDI files</li><li>Export to WAV</li><li>Free</li></ul></div>
           </div>
         </section>
 
@@ -186,5 +179,6 @@
     <script src="./assets/stage.js"></script>
     <script src="./assets/hum.js"></script>
     <script src="./assets/app.js"></script>
+    <script src="./assets/how.js"></script>
   </body>
 </html>
